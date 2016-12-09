@@ -1,0 +1,42 @@
+apply plugin: 'com.android.application'
+apply plugin: "grill"
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'android-apt'
+
+android {
+    compileSdkVersion rootProject.ext.androidSdk
+    buildToolsVersion rootProject.ext.androidTools
+    defaultConfig {
+        applicationId "com.themanol.pokecards"
+        minSdkVersion rootProject.ext.androidMinSdk
+        targetSdkVersion rootProject.ext.androidSdk
+        versionCode grill.CI.getCommitRevision()
+        versionName grill.CI.getTag()
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        prod {
+
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile project(path: ':pokesdk')
+    compile "com.android.support:recyclerview-v7:${rootProject.ext.appCompat}"
+    compile "com.github.bumptech.glide:glide:${rootProject.ext.glide}"
+    compile "com.jakewharton:butterknife:${rootProject.ext.butterknife}"
+    apt "com.jakewharton:butterknife-compiler:${rootProject.ext.butterknife}"
+}

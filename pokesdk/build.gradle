@@ -1,0 +1,61 @@
+apply plugin: "com.android.library"
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'android-apt'
+apply plugin: "grill"
+
+android {
+    compileSdkVersion rootProject.ext.androidSdk
+    buildToolsVersion rootProject.ext.androidTools
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.androidMinSdk
+        targetSdkVersion rootProject.ext.androidSdk
+        versionCode grill.CI.getCommitRevision()
+        versionName grill.CI.getTag()
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    //UI
+    compile "com.android.support:appcompat-v7:${rootProject.ext.appCompat}"
+
+    //Network
+    compile "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofit}"
+    compile "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofit}"
+    compile "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okHttp}"
+
+    //RX
+    compile "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${rootProject.ext.rxJava2RetrofitAdapter}"
+    compile "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxJava2}"
+    compile "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxJava2Android}"
+
+    //Injection and boilerplate
+    compile "com.google.dagger:dagger:${rootProject.ext.dagger}"
+
+    //Processors
+    apt "com.google.dagger:dagger-compiler:${rootProject.ext.dagger}"
+    apt "com.google.auto.value:auto-value:${rootProject.ext.autovalue}"
+    apt "com.ryanharter.auto.value:auto-value-gson:${rootProject.ext.gsonParsing}"
+    provided "com.google.auto.value:auto-value:${rootProject.ext.autovalue}"
+    provided "javax.annotation:jsr250-api:${rootProject.ext.injectApi}"
+    provided "com.ryanharter.auto.value:auto-value-gson:${rootProject.ext.gsonParsing}"
+
+    //Testing
+    androidTestCompile("com.android.support.test.espresso:espresso-core:${rootProject.ext.espresso}", {
+        exclude group: "com.android.support", module: "support-annotations"
+    })
+    testCompile "junit:junit:${rootProject.ext.junit}"
+}

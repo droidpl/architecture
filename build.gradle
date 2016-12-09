@@ -1,0 +1,46 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.github.droidpl:grillplugin:1.2'
+        classpath 'me.tatarka:gradle-retrolambda:3.4.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+ext {
+    androidSdk = 24
+    androidTools = "25.0.0"
+    androidMinSdk = 16
+
+    appCompat = "25.0.1"
+    retrofit = "2.1.0"
+    rxJava2RetrofitAdapter = "1.0.0"
+    rxJava2Android = "2.0.1"
+    rxJava2 = "2.0.2"
+    okHttp = "3.4.0"
+    glide = "3.7.0"
+    autovalue = "1.3"
+    dagger = "2.8"
+    injectApi = "1.0"
+    butterknife = "8.4.0"
+    gsonParsing = "0.4.5"
+
+    //Testing
+    espresso = "2.2.2"
+    junit = "4.12"
+}
